@@ -1,0 +1,350 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>مواصفات منصة QR للسيارات</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=Readex+Pro:wght@500;600&display=swap">
+<style>
+  /* Layout: one narrow reading column, RTL, sections divided by a thin rule; sequences (journey, architecture, budget) get their own small structures. */
+  :root {
+    --bg: #F2F5F8;
+    --surface: #FFFFFF;
+    --fg: #14212F;
+    --muted: #546377;
+    --line: #D9E0E8;
+    --accent: #1458C8;
+    --accent-soft: #E3ECFB;
+    --signal: #E8A317;
+    --signal-soft: #FCF1D6;
+    --font-body: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, Arial, sans-serif;
+    --font-display: "Readex Pro", "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0E151D;
+      --surface: #151F2A;
+      --fg: #E7ECF2;
+      --muted: #9AA9BC;
+      --line: #263445;
+      --accent: #7AABFF;
+      --accent-soft: #16294A;
+      --signal: #F2B84B;
+      --signal-soft: #33290F;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0E151D;
+    --surface: #151F2A;
+    --fg: #E7ECF2;
+    --muted: #9AA9BC;
+    --line: #263445;
+    --accent: #7AABFF;
+    --accent-soft: #16294A;
+    --signal: #F2B84B;
+    --signal-soft: #33290F;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.85;
+    direction: rtl;
+    text-align: right;
+    padding-block: 2rem 3rem;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  bdi { unicode-bidi: isolate; }
+  bdi[dir="ltr"] { font-feature-settings: "tnum"; }
+
+  .page { max-width: 880px; margin: 0 auto; display: flex; flex-direction: column; gap: 2.5rem; }
+  section { display: flex; flex-direction: column; gap: 0.9rem; min-width: 0; }
+  h1, h2 { font-family: var(--font-display); text-wrap: balance; margin: 0; line-height: 1.35; }
+  h1 { font-size: clamp(1.7rem, 4.6vw, 2.4rem); font-weight: 600; }
+  h2 { font-size: 1.3rem; font-weight: 600; padding-bottom: 0.5rem; border-bottom: 1px solid var(--line); }
+  h3 { font-size: 1rem; font-weight: 600; margin: 0; }
+  p { margin: 0; max-width: 68ch; }
+  ul { margin: 0; padding: 0 1.25rem 0 0; display: flex; flex-direction: column; gap: 0.3rem; }
+  .muted { color: var(--muted); font-size: 0.94rem; }
+
+  /* Header */
+  header { display: flex; gap: 1.25rem; align-items: flex-start; flex-wrap: wrap; }
+  .sticker { flex: none; width: 76px; height: 76px; color: var(--accent); }
+  .head-text { display: flex; flex-direction: column; gap: 0.75rem; flex: 1 1 320px; min-width: 0; }
+  .eyebrow { font-size: 0.85rem; letter-spacing: 0.04em; color: var(--accent); font-weight: 600; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chip { background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 0.1rem 0.85rem; font-size: 0.88rem; }
+
+  /* Tables */
+  .scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; min-width: 560px; }
+  th, td { text-align: right; padding: 0.6rem 0.9rem; vertical-align: top; border-bottom: 1px solid var(--line); font-size: 0.95rem; line-height: 1.7; }
+  th { font-weight: 600; background: var(--accent-soft); font-size: 0.88rem; }
+  tr:last-child td { border-bottom: 0; }
+  td.num, th.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* Journey */
+  ol.steps { list-style: none; margin: 0; padding: 0; counter-reset: s; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 0.75rem; }
+  ol.steps li { counter-increment: s; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 0.8rem 0.9rem; display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
+  ol.steps li::before { content: counter(s); width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--accent); color: var(--bg); display: grid; place-items: center; font-weight: 600; font-size: 0.9rem; line-height: 1; }
+  ol.steps p { font-size: 0.93rem; line-height: 1.75; }
+
+  /* Build lists */
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+  .col { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+  .col h3 { color: var(--accent); }
+  .col ul { font-size: 0.95rem; }
+
+  /* Limits */
+  .limits { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.6rem; }
+  .limit { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 0.55rem 0.8rem; display: flex; flex-direction: column; }
+  .limit strong { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .limit span { font-size: 0.84rem; color: var(--muted); line-height: 1.5; }
+
+  /* Architecture */
+  .arch { display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem; }
+  .node { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 0.55rem 0.9rem; font-size: 0.93rem; line-height: 1.6; }
+  .node.main { border: 2px solid var(--accent); background: var(--accent-soft); font-weight: 600; }
+  .stack { display: flex; flex-direction: column; gap: 0.5rem; }
+  .arrow { color: var(--muted); font-size: 1.3rem; line-height: 1; }
+
+  /* Database */
+  .tables { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0.5rem 1rem; }
+  .tbl { display: flex; flex-direction: column; border-bottom: 1px solid var(--line); padding-bottom: 0.35rem; min-width: 0; }
+  .tbl bdi { font-weight: 600; color: var(--accent); text-align: right; }
+  .tbl span { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+
+  /* Budget */
+  .total { display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; background: var(--signal-soft); border: 1px solid var(--signal); border-radius: 10px; padding: 0.7rem 1rem; }
+  .total strong { font-family: var(--font-display); font-size: 1.9rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .bar { display: block; height: 8px; border-radius: 4px; background: var(--accent); width: var(--w); min-width: 4px; }
+  .barcell { width: 38%; min-width: 120px; }
+
+  /* Phases */
+  ol.phases { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 0.75rem; }
+  ol.phases li { border-top: 3px solid var(--accent); background: var(--surface); padding: 0.6rem 0.9rem 0.8rem; border-radius: 0 0 10px 10px; display: flex; flex-direction: column; gap: 0.15rem; }
+  ol.phases strong { font-family: var(--font-display); font-weight: 600; }
+  ol.phases span { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+
+  @media (max-width: 560px) {
+    .arch { flex-direction: column; align-items: stretch; }
+    .arrow { transform: rotate(-90deg); align-self: center; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+</style>
+
+<main class="page" lang="ar" dir="rtl">
+
+  <header>
+    <svg class="sticker" viewBox="0 0 76 76" role="img" aria-label="ستيكر QR" fill="currentColor">
+      <rect x="2" y="2" width="72" height="72" rx="12" fill="none" stroke="currentColor" stroke-width="3"/>
+      <rect x="12" y="12" width="20" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="4"/>
+      <rect x="18" y="18" width="8" height="8" rx="1"/>
+      <rect x="44" y="12" width="20" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="4"/>
+      <rect x="50" y="18" width="8" height="8" rx="1"/>
+      <rect x="12" y="44" width="20" height="20" rx="3" fill="none" stroke="currentColor" stroke-width="4"/>
+      <rect x="18" y="50" width="8" height="8" rx="1"/>
+      <rect x="44" y="44" width="8" height="8" rx="1"/>
+      <rect x="56" y="44" width="8" height="8" rx="1"/>
+      <rect x="44" y="56" width="8" height="8" rx="1"/>
+      <rect x="56" y="56" width="8" height="8" rx="1"/>
+    </svg>
+    <div class="head-text">
+      <span class="eyebrow">مواصفات مبدئية</span>
+      <h1>منصة <bdi dir="ltr">QR</bdi> للتواصل مع أصحاب السيارات</h1>
+      <p>ستيكر <bdi dir="ltr">QR</bdi> على زجاج السيارة. أي شخص يمسحه يبعت لصاحب السيارة تنبيه على واتساب أو <bdi dir="ltr">SMS</bdi>، من غير ما بيانات أي طرف تظهر للتاني.</p>
+      <div class="chips">
+        <span class="chip">السوق: مصر</span>
+        <span class="chip">موقع ويب فقط</span>
+        <span class="chip">عربي وإنجليزي</span>
+        <span class="chip">بيع الستيكر في باقات</span>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <h2>الأطراف وما يعرفه كل طرف</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>الطرف</th><th>الحساب</th><th>بيعمل إيه</th><th>مش بيشوف إيه</th></tr></thead>
+        <tbody>
+          <tr><td>المرسل</td><td>إلزامي، بجوجل أو إيميل</td><td>يمسح الكود ويبعت رسالة</td><td>أي بيانات عن صاحب السيارة</td></tr>
+          <tr><td>صاحب السيارة</td><td>بدون حساب</td><td>يطلب الستيكر ويستلم التنبيه باسم المنصة</td><td>هوية المرسل</td></tr>
+          <tr><td>الأدمن</td><td>واحد بكل الصلاحيات</td><td>يدير كل شيء، ويشوف سجل الرسائل وهوية المرسل</td><td>لا يوجد</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>رحلة الاستخدام</h2>
+    <ol class="steps">
+      <li><h3>الطلب</h3><p>العميل يختار الباقة ويدخل الاسم والموبايل والإيميل وعنوان التوصيل، ويدفع أونلاين.</p></li>
+      <li><h3>التجهيز</h3><p>الأدمن يراجع البيانات ويضغط زر توليد <bdi dir="ltr">QR</bdi>، فيتربط الكود بالطلب. بعدها يطبع الستيكر ويشحنه.</p></li>
+      <li><h3>المسح</h3><p>المرسل يمسح الكود، يسجل بجوجل أو إيميل، ويختار رسالة جاهزة أو يكتب نص حر.</p></li>
+      <li><h3>التوصيل</h3><p>المنصة تفحص الرسالة وتبعتها باسمها: واتساب أولاً، ولو فشل يدخل <bdi dir="ltr">SMS</bdi> تلقائياً.</p></li>
+    </ol>
+    <p class="muted">لو الستيكر ضاع، صاحب السيارة يكلم الدعم، والأدمن يوقف الكود القديم ويولّد بدله.</p>
+  </section>
+
+  <section>
+    <h2>المطلوب بناؤه</h2>
+    <div class="cols">
+      <div class="col">
+        <h3>الموقع العام</h3>
+        <ul>
+          <li>الرئيسية وطريقة العمل</li>
+          <li>عرض الباقات</li>
+          <li>الطلب والدفع</li>
+          <li>سياسة الخصوصية والشروط</li>
+          <li>عربي <bdi dir="ltr">RTL</bdi> وإنجليزي <bdi dir="ltr">LTR</bdi></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>صفحة المسح</h3>
+        <ul>
+          <li>تسجيل دخول بجوجل أو إيميل</li>
+          <li>قائمة رسائل جاهزة</li>
+          <li>نص حر بحد أقصى للطول</li>
+          <li>حالة الإرسال للمرسل، بدون أي بيانات</li>
+          <li>خفيفة وسريعة على <bdi dir="ltr">4G</bdi></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>لوحة الأدمن</h3>
+        <ul>
+          <li>الطلبات، وزر توليد <bdi dir="ltr">QR</bdi> وتحميل ملف الطباعة</li>
+          <li>إدارة الأكواد: إيقاف، تفعيل، استبدال</li>
+          <li>الباقات والأسعار والأرصدة</li>
+          <li>سجل الرسائل الكامل والمرسلون والحظر</li>
+          <li>الرسائل الجاهزة والكلمات الممنوعة</li>
+          <li>تقارير الطلبات والإيرادات والرسائل</li>
+        </ul>
+      </div>
+    </div>
+    <p class="muted">خارج النطاق حالياً: تطبيق موبايل، حساب لصاحب السيارة، رد صاحب السيارة على المرسل، رفع صور، أسواق خارج مصر.</p>
+  </section>
+
+  <section>
+    <h2>الخصوصية ومنع الإساءة</h2>
+    <ul>
+      <li>كود <bdi dir="ltr">QR</bdi> عشوائي وطويل، بدون رقم تسلسلي وبدون أي بيانات شخصية فيه.</li>
+      <li>بيانات صاحب السيارة محفوظة عند الأدمن فقط، والرسالة تتبعت باسم المنصة.</li>
+      <li>هوية المرسل تظهر للأدمن داخلياً فقط.</li>
+      <li>فلترة النص الحر: كلمات مسيئة، وأرقام هاتف وروابط ممنوعة، مع <bdi dir="ltr">CAPTCHA</bdi> عند الإرسال.</li>
+    </ul>
+    <h3>حدود الإرسال المقترحة</h3>
+    <div class="limits">
+      <div class="limit"><strong>دقيقتان</strong><span>بين رسالتين لنفس الكود</span></div>
+      <div class="limit"><strong>3 رسائل</strong><span>لكل كود في الساعة</span></div>
+      <div class="limit"><strong>10 رسائل</strong><span>لكل كود في اليوم</span></div>
+      <div class="limit"><strong>20 رسالة</strong><span>لكل مرسل في اليوم</span></div>
+      <div class="limit"><strong>150 حرف</strong><span>أقصى طول للنص الحر</span></div>
+    </div>
+    <p class="muted">المشروع بيجمع بيانات شخصية، فيتراجع مع محامٍ على قانون حماية البيانات الشخصية رقم 151 لسنة 2020 قبل الإطلاق.</p>
+  </section>
+
+  <section>
+    <h2>الباقات</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>الباقة (مثال)</th><th>قناة التوصيل</th><th class="num">رصيد الرسائل</th></tr></thead>
+        <tbody>
+          <tr><td>واتساب</td><td>واتساب فقط</td><td class="num">50 رسالة</td></tr>
+          <tr><td>واتساب مع <bdi dir="ltr">SMS</bdi></td><td>واتساب أولاً، و<bdi dir="ltr">SMS</bdi> لو فشل</td><td class="num">150 رسالة</td></tr>
+          <tr><td><bdi dir="ltr">SMS</bdi></td><td><bdi dir="ltr">SMS</bdi> فقط</td><td class="num">50 رسالة</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted">الأسعار والأرصدة تتحدد لاحقاً، وتتعدل من لوحة التحكم بدون تغيير في الكود. النظام يتأكد من القناة والرصيد قبل كل إرسال.</p>
+  </section>
+
+  <section>
+    <h2>التقنيات</h2>
+    <div class="arch" aria-label="ترتيب المكوّنات">
+      <div class="node">الواجهة <bdi dir="ltr">React</bdi></div>
+      <span class="arrow" aria-hidden="true">←</span>
+      <div class="node main">الخادم <bdi dir="ltr">ASP.NET Core</bdi></div>
+      <span class="arrow" aria-hidden="true">←</span>
+      <div class="stack">
+        <div class="node">قاعدة البيانات</div>
+        <div class="node">بوابة الدفع <bdi dir="ltr">Stripe</bdi></div>
+        <div class="node">مهام الإرسال: واتساب ثم <bdi dir="ltr">SMS</bdi></div>
+      </div>
+    </div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>المكوّن</th><th>التقنية</th></tr></thead>
+        <tbody>
+          <tr><td>الواجهة</td><td><bdi dir="ltr">React</bdi> مع <bdi dir="ltr">TypeScript</bdi>، ودعم <bdi dir="ltr">RTL</bdi> بمكتبة ترجمة</td></tr>
+          <tr><td>الباك إند</td><td><bdi dir="ltr">ASP.NET Core Web API</bdi></td></tr>
+          <tr><td>قاعدة البيانات</td><td><bdi dir="ltr">PostgreSQL</bdi> أو <bdi dir="ltr">SQL Server</bdi></td></tr>
+          <tr><td>تسجيل الدخول</td><td><bdi dir="ltr">Google OAuth</bdi> وإيميل، مع <bdi dir="ltr">JWT</bdi></td></tr>
+          <tr><td>الدفع</td><td><bdi dir="ltr">Stripe Checkout</bdi> مع <bdi dir="ltr">Webhook</bdi> لتأكيد الدفع</td></tr>
+          <tr><td>الرسائل</td><td>واتساب و<bdi dir="ltr">SMS</bdi>، والمزودين يتحددوا لاحقاً</td></tr>
+          <tr><td>الإرسال والمحاولات</td><td>مهام خلفية مثل <bdi dir="ltr">Hangfire</bdi></td></tr>
+          <tr><td>منع الآلية</td><td><bdi dir="ltr">CAPTCHA</bdi> مثل <bdi dir="ltr">Cloudflare Turnstile</bdi></td></tr>
+          <tr><td>رابط الستيكر</td><td>بصيغة ثابتة <bdi dir="ltr">domain/s/code</bdi>، فيفضل شغال بعد الطباعة</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>قاعدة البيانات</h2>
+    <div class="tables">
+      <div class="tbl"><bdi dir="ltr">Users</bdi><span>المرسلون والأدمن</span></div>
+      <div class="tbl"><bdi dir="ltr">Packages</bdi><span>الباقات والقنوات والأرصدة والأسعار</span></div>
+      <div class="tbl"><bdi dir="ltr">Orders</bdi><span>الطلبات وبيانات صاحب السيارة</span></div>
+      <div class="tbl"><bdi dir="ltr">Payments</bdi><span>حالة الدفع ومعرّف العملية</span></div>
+      <div class="tbl"><bdi dir="ltr">QrCodes</bdi><span>الكود العشوائي وحالته وباقته</span></div>
+      <div class="tbl"><bdi dir="ltr">PresetMessages</bdi><span>الرسائل الجاهزة بلغتين</span></div>
+      <div class="tbl"><bdi dir="ltr">Messages</bdi><span>سجل الرسائل الكامل</span></div>
+      <div class="tbl"><bdi dir="ltr">DeliveryAttempts</bdi><span>محاولات واتساب و<bdi dir="ltr" style="display:inline;font-weight:400;color:inherit">SMS</bdi></span></div>
+      <div class="tbl"><bdi dir="ltr">BlockedWords</bdi><span>قائمة الفلترة</span></div>
+      <div class="tbl"><bdi dir="ltr">Settings</bdi><span>حدود الإرسال وقيم قابلة للتعديل</span></div>
+      <div class="tbl"><bdi dir="ltr">AuditLog</bdi><span>إجراءات الأدمن</span></div>
+    </div>
+    <p class="muted">الطلب الواحد ممكن يطلّع أكثر من كود. الكود القديم بيتوقف ويتربط ببديله عند الاستبدال.</p>
+  </section>
+
+  <section>
+    <h2>الميزانية</h2>
+    <div class="total">
+      <strong>30,000 ج.م</strong>
+      <span>برمجة وتصميم فقط، بدون أي اشتراكات.</span>
+    </div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>البند</th><th class="num">المبلغ (ج.م)</th><th aria-label="النسبة من الإجمالي"></th></tr></thead>
+        <tbody>
+          <tr><td>تصميم الشاشات</td><td class="num">3,000</td><td class="barcell"><span class="bar" style="--w:10%"></span></td></tr>
+          <tr><td>الواجهة (<bdi dir="ltr">React</bdi>)</td><td class="num">8,000</td><td class="barcell"><span class="bar" style="--w:26.7%"></span></td></tr>
+          <tr><td>الباك إند (<bdi dir="ltr">.NET</bdi>) وقاعدة البيانات</td><td class="num">10,000</td><td class="barcell"><span class="bar" style="--w:33.3%"></span></td></tr>
+          <tr><td>لوحة الأدمن والتقارير</td><td class="num">4,000</td><td class="barcell"><span class="bar" style="--w:13.3%"></span></td></tr>
+          <tr><td>ربط الدفع والرسائل والاختبار</td><td class="num">3,000</td><td class="barcell"><span class="bar" style="--w:10%"></span></td></tr>
+          <tr><td>الإطلاق والإعداد</td><td class="num">2,000</td><td class="barcell"><span class="bar" style="--w:6.7%"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="muted">توزيع تقريبي مقترح، ويتأكد مع من سينفّذ كل جزء.</p>
+  </section>
+
+  <section>
+    <h2>المراحل</h2>
+    <ol class="phases">
+      <li><strong>التحليل والتصميم</strong><span>تأكيد المتطلبات وتصميم الشاشات</span></li>
+      <li><strong>الباك إند</strong><span>قاعدة البيانات والحسابات والطلبات وتوليد الكود</span></li>
+      <li><strong>الواجهة والتكامل</strong><span>صفحات الموقع والمسح وربط الدفع والرسائل</span></li>
+      <li><strong>الاختبار والإطلاق</strong><span>اختبار شامل وسياسة الخصوصية وإطلاق تجريبي</span></li>
+    </ol>
+  </section>
+
+</main>
+
+</body></html>
